@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -22,6 +22,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Alert, AlertTitle } from '@/components/ui/alert';
+import { FaGithub, FaGoogle } from 'react-icons/fa';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -40,11 +41,12 @@ export const SignInView = () => {
       {
         email: data.email,
         password: data.password,
+        callbackURL: '/',
       },
       {
         onSuccess: () => {
-          router.push('/');
           setIsPending(false);
+          router.push('/');
         },
         onError: ({ error }) => {
           setError(error.message);
@@ -136,17 +138,29 @@ export const SignInView = () => {
                     disabled={pending}
                     variant='outline'
                     type='button'
-                    className='w-full'
+                    className='w-full cursor-pointer'
+                    onClick={() =>
+                      authClient.signIn.social({
+                        provider: 'google',
+                        callbackURL: '/',
+                      })
+                    }
                   >
-                    Google
+                    <FaGoogle className='mr-2 h-4 w-4' />
                   </Button>
                   <Button
                     disabled={pending}
+                    onClick={() =>
+                      authClient.signIn.social({
+                        provider: 'github',
+                        callbackURL: '/',
+                      })
+                    }
                     variant='outline'
                     type='button'
-                    className='w-full'
+                    className='w-full cursor-pointer'
                   >
-                    Github
+                    <FaGithub className='mr-2 h-4 w-4' />
                   </Button>
                 </div>
                 <div className='text-center text-sm'>
@@ -162,7 +176,13 @@ export const SignInView = () => {
             </form>
           </Form>
           <div className='bg-radial from-green-700 to-green-900 relative hidden md:flex flex-col gap-y-4 items-center justify-center'>
-            <Image src='/logo.svg' alt='Logo' className='h-[92px] w-[92px]' />
+            <Image
+              src='/logo.svg'
+              alt='Logo'
+              width={92}
+              height={92}
+              className='h-[92px] w-[92px]'
+            />
             <p className='text-2xl font-semibold text-white'>
               Perfect Interview AI
             </p>
