@@ -4,6 +4,11 @@ import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 
+/**
+ * Displays the home view with user session awareness and sign-out functionality.
+ *
+ * Shows the logged-in user's name and a sign-out button if a session exists; otherwise, displays only the application title.
+ */
 export function HomeView() {
   const { data: session } = authClient.useSession();
   const router = useRouter();
