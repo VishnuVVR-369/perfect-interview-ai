@@ -1,17 +1,17 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
+import { SignInView } from "./sign-in";
 
-export default async function Home() {
+const SignInPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
   if (session) {
     redirect("/dashboard");
   }
-  return (
-    <div className="flex flex-col items-center justify-center h-screen text-3xl font-bold">
-      <h1>Landing Page</h1>
-    </div>
-  );
-}
+
+  return <SignInView />;
+};
+
+export default SignInPage;
