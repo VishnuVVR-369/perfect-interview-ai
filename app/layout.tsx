@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
+import { TRPCReactProvider } from "@/app/trpc/client";
 import "./globals.css";
 
 const jetBrainsMono = JetBrains_Mono({
@@ -18,10 +19,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${jetBrainsMono.className} antialiased`}>
-        {children}
-      </body>
-    </html>
+    <TRPCReactProvider>
+      <html lang="en">
+        <body className={`${jetBrainsMono.className} antialiased`}>
+          {children}
+        </body>
+      </html>
+    </TRPCReactProvider>
   );
 }
